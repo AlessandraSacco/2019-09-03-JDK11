@@ -7,6 +7,7 @@ public class Portion {
 	private Double calories;
 	private Double saturated_fats;
 	private Integer food_code;
+	private Integer peso;
 	
 	public Portion(Integer portion_id, Double portion_amount, String portion_display_name, Double calories,
 			Double saturated_fats, Integer food_code) {
@@ -83,8 +84,16 @@ public class Portion {
 
 	@Override
 	public String toString() {
-		return "{portion_id=" + portion_id + ", portion_amount=" + portion_amount + ", portion_display_name="
-				+ portion_display_name + ", food_code=" + food_code + "}";
+		return portion_display_name;
+	}
+
+	public void setPeso(Integer peso) {
+		this.peso=peso;
+		
+	}
+	
+	public Integer getPeso() {
+		return peso;
 	}
 
 	

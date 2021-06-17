@@ -7,6 +7,7 @@ package it.polito.tdp.food;
 import java.net.URL;
 import java.util.ResourceBundle;
 import it.polito.tdp.food.model.Model;
+import it.polito.tdp.food.model.Portion;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -40,7 +41,7 @@ public class FoodController {
     private Button btnCammino; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxPorzioni"
-    private ComboBox<?> boxPorzioni; // Value injected by FXMLLoader
+    private ComboBox<Portion> boxPorzioni; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
@@ -54,14 +55,50 @@ public class FoodController {
     @FXML
     void doCorrelate(ActionEvent event) {
     	txtResult.clear();
-    	txtResult.appendText("Cerco porzioni correlate...");
+    	
+    	if(this.model.getGrafo()==null) {
+    		txtResult.appendText("il grafo è vuoto");
+    	}
+    	
+    	Portion p = boxPorzioni.getValue();
+    	txtResult.appendText("\n Porzioni connesse: \n");
+    	for(Portion p1: this.model.getPorzioniCollegate(p)) {
+    		txtResult.appendText(p1.getPortion_display_name()+" "+p1.getPeso()+"\n");
+    	}
+    
+    	
+    	
     	
     }
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
     	txtResult.clear();
-    	txtResult.appendText("Creazione grafo...");
+    	
+    	String calorieDouble=txtCalorie.getText();
+    	Double calories ;
+    	
+    	if(calorieDouble==null) {
+    		txtResult.appendText("Il campo è vuoto Inserisci un numero\n");
+    		
+    	}
+    	
+    	try {
+    		calories= Double.parseDouble(calorieDouble);
+    		this.model.creaGrafo(calories);
+    		
+    	}catch(NumberFormatException e) {
+    		txtResult.appendText("Inserisci un numero\n");
+    	}
+    	
+    	
+    	
+    	this.boxPorzioni.getItems().clear();
+    	this.boxPorzioni.getItems().addAll(this.model.listaPorzioni());
+    	
+    	txtResult.appendText("Grafo creato: \n");
+    	txtResult.appendText("#VERTICI: "+this.model.getVertici()+"\n");
+    	txtResult.appendText("#ARCHI: "+this.model.getArchi()+"\n");
     	
     }
 
