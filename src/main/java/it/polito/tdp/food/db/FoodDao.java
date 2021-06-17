@@ -15,7 +15,7 @@ public class FoodDao {
 	
 	public List<String> getPortionDisplayNames(int C) {
 		String sql = "SELECT DISTINCT portion_display_name " + 
-				"FROM `portion` " + 
+				"FROM porzione " + 
 				"WHERE calories<? " + 
 				"ORDER BY portion_display_name" ;
 		
@@ -47,7 +47,7 @@ public class FoodDao {
 	
 	public List<InfoArco> getTuttiGliArchi() {
 		String sql = "SELECT P1.portion_display_name AS NAME1, P2.portion_display_name AS NAME2, COUNT(DISTINCT P1.food_code) AS CNT " + 
-				"FROM `portion` P1, `portion` P2 " + 
+				"FROM porzione P1, porzione P2 " + 
 				"WHERE P1.food_code=P2.food_code " + 
 				"AND P1.portion_id<>P2.portion_id " + 
 				"GROUP BY P1.portion_display_name, P2.portion_display_name" ;
